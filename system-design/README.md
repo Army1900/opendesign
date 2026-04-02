@@ -63,6 +63,7 @@
 | security-design | 认证授权和数据安全 | 安全设计.md |
 | performance-design | 性能目标和优化策略 | 性能设计.md |
 | availability-design | 高可用和容灾策略 | 可用性设计.md |
+| compatibility-design | 兼容性场景和问题处理 | 兼容性设计.md |
 
 ### 执行层
 | Skill | 说明 | 输出文档 |

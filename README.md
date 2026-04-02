@@ -4,12 +4,12 @@
 
 ## 概述
 
-本项目包含 **29 个设计审查 skill**, 分为两大类:
+本项目包含 **30 个设计审查 skill**, 分为两大类:
 
 | 类别 | Skill 数量 | 说明 |
 |------|-----------|------|
 | product-design | 13 | 产品设计审查 (需求、场景、交互、可用性) |
-| system-design | 16 | 系统设计审查 (架构、数据、安全、性能、任务拆分) |
+| system-design | 17 | 系统设计审查 (架构、数据、安全、性能、兼容性、任务拆分) |
 
 ## 目录结构
 
@@ -46,6 +46,7 @@ opendesign/
 │   ├── security-design/           # 安全设计
 │   ├── performance-design/        # 性能设计
 │   ├── availability-design/       # 可用性设计
+│   ├── compatibility-design/      # 兼容性设计
 │   └── work-breakdown/            # 工作拆分
 │
 └── docs/                          # 输出文档目录
