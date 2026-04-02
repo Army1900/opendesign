@@ -8,7 +8,13 @@
       "Bash(rm -rf skills)",
       "Bash(git add:*)",
       "Bash(git commit -m 'Add system-design skills:*)",
-      "Bash(git commit -m 'Add tech-stack skill and update dependencies:*)"
+      "Bash(git commit -m 'Add tech-stack skill and update dependencies:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "Bash(git branch:*)",
+      "Bash(git fetch:*)",
+      "Bash(git commit -m 'Add project README.md:*)",
+      "Bash(git commit -m 'Add work-breakdown skill:*)"
     ]
   }
 }
