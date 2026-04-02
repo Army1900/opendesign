@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(ls product-design/skills/*/SKILL.md)",
+      "Bash(rm -rf requirement-background scenario-design-* information-architecture-* interaction-* usability-*)",
+      "Bash(mv skills/* .)",
+      "Bash(rm -rf skills)"
+    ]
+  }
+}
