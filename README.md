@@ -46,7 +46,7 @@ opendesign/
 │   ├── security-design/           # 安全设计
 │   ├── performance-design/        # 性能设计
 │   ├── availability-design/       # 可用性设计
-│   ├── compatibility-design/      # 兼容性设计
+│   ├── data-compatibility/        # 数据兼容性设计
 │   └── work-breakdown/            # 工作拆分
 │
 └── docs/                          # 输出文档目录

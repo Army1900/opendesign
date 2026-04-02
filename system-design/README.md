@@ -63,7 +63,7 @@
 | security-design | 认证授权和数据安全 | 安全设计.md |
 | performance-design | 性能目标和优化策略 | 性能设计.md |
 | availability-design | 高可用和容灾策略 | 可用性设计.md |
-| compatibility-design | 兼容性场景和问题处理 | 兼容性设计.md |
+| data-compatibility | 数据格式兼容性设计 | 数据兼容性设计.md |
 
 ### 执行层
 | Skill | 说明 | 输出文档 |
@@ -94,5 +94,6 @@ system-design/
 ├── event-design/SKILL.md
 ├── security-design/SKILL.md
 ├── performance-design/SKILL.md
-└── availability-design/SKILL.md
+├── data-compatibility/SKILL.md
+└── work-breakdown/SKILL.md
 ```
