@@ -100,3 +100,47 @@ docs/product-design/[项目名]/使用场景.md
 2. 提取使用场景相关信息
 3. 按模板输出文档到 `docs/product-design/[项目名]/使用场景.md`
 4. 标注缺失信息并提示用户
+
+---
+
+## 示例
+
+### 输入
+```
+用户: "帮我梳理下这个产品的使用场景"
+文件: /design/ecommerce/index.html (电商设计稿)
+```
+
+### 输出
+生成文件: `docs/product-design/ecommerce/使用场景.md`
+```
+
+### 流程
+1. Claude 读取设计稿 HTML 文件
+2. 识别主要页面和 功能模块
+3. 提取用户操作流程
+4. 按场景模板输出
+```
+
+---
+
+## HTML 文件夹处理
+
+### 扫描策略
+```
+/design/ecommerce/
+├── index.html        
+├── pages/
+│   ├── home.html
+│   ├── product-detail.html
+│   ├── cart.html
+│   └── checkout.html
+└── components/
+```
+
+### 信息提取
+| 信息类型 | 提取位置 |
+|----------|----------|
+| 页面流程 | 页面链接关系 |
+| 操作入口 | 按钮、导航 |
+| 功能模块 | 页面主要内容 |

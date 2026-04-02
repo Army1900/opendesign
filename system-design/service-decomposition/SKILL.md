@@ -158,3 +158,60 @@ docs/system-design/[项目名]/服务拆分.md
 2. 识别服务拆分信息
 3. 按模板输出文档到 `docs/system-design/[项目名]/服务拆分.md`
 4. 标注缺失信息并提示用户
+
+5. **读取技术栈**：先读取 `docs/system-design/[项目名]/技术栈.md` 了解技术框架
+
+6. **读取领域模型**：先读取 `docs/system-design/[项目名]/领域模型.md` 了解领域划分
+
+7. **依赖服务**：如果依赖的文档不存在, 提示用户先运行对应的 skill
+
+8. **输出位置**：将生成的文档保存到 `docs/system-design/[项目名]/服务拆分.md`
+9. **交互式确认**：对于不确定的服务边界, 向用户确认
+10. **粒度检查**：检查每个服务拆分粒度是否合理, 是否存在过细或过粗的问题
+11. **输出位置**：将生成的文档保存到 `docs/system-design/[项目名]/服务拆分.md`
+
+---
+
+## 使用示例
+
+### 输入
+```
+用户: "帮我分析下这个项目的服务拆分"
+项目: /project/ecommerce-service/
+```
+
+### 流程
+1. 读取 `/project/ecommerce-service/pom.xml` 识别技术栈
+2. 读取项目目录结构, 识别模块划分
+3. 读取 `docs/system-design/ecommerce-service/技术栈.md` (如果存在)
+4. 按领域拆分服务
+5. 输出到 `docs/system-design/ecommerce-service/服务拆分.md`
+```
+
+### 输出
+生成文件: `docs/system-design/ecommerce-service/服务拆分.md`
+包含: 服务清单、 拆分原则、 服务边界、 依赖关系等
+```
+
+---
+
+## 代码扫描策略
+
+### Maven 项目
+```
+/project/
+├── pom.xml                    # 识别依赖和模块
+├── src/main/java/
+│   └── com/company/
+│       ├── user/                # 用户域
+│       ├── order/                # 订单域
+│       ├── product/              # 商品域
+│       └── payment/              # 支付域
+```
+
+### 识别方式
+| 信息类型 | 位置 | 方法 |
+|----------|------|------|
+| 模块划分 | 目录结构 | 识别 package 命名 |
+| 领域边界 | import 关系 | 识别跨域调用 |
+| 服务依赖 | pom.xml | 识别服务间依赖 |

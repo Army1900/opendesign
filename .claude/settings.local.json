@@ -14,7 +14,8 @@
       "Bash(git branch:*)",
       "Bash(git fetch:*)",
       "Bash(git commit -m 'Add project README.md:*)",
-      "Bash(git commit -m 'Add work-breakdown skill:*)"
+      "Bash(git commit -m 'Add work-breakdown skill:*)",
+      "Bash(git commit -m 'Improve skills with examples and HTML processing:*)"
     ]
   }
 }
