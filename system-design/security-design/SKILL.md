@@ -1,6 +1,8 @@
 ---
 name: system-design-security
-description: 分析系统的安全设计。当用户提供架构文档, 需要梳理"安全机制和防护策略"时触发。TRIGGER 当用户说"分析下安全设计"、"梳理下安全机制"、"系统的安全策略是什么"时使用。
+description: 分析系统的安全设计。当用户提供架构文档, 需要梳理"安全机制和防护策略"时触发。 TRIGGER 当用户说"分析下安全设计"、"梳理下安全机制"、"系统的安全策略是什么"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # 安全设计分析 Skill

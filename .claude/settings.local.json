@@ -5,7 +5,10 @@
       "Bash(ls product-design/skills/*/SKILL.md)",
       "Bash(rm -rf requirement-background scenario-design-* information-architecture-* interaction-* usability-*)",
       "Bash(mv skills/* .)",
-      "Bash(rm -rf skills)"
+      "Bash(rm -rf skills)",
+      "Bash(git add:*)",
+      "Bash(git commit -m 'Add system-design skills:*)",
+      "Bash(git commit -m 'Add tech-stack skill and update dependencies:*)"
     ]
   }
 }

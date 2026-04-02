@@ -1,6 +1,8 @@
 ---
 name: system-design-service-decomposition
 description: 分析系统的服务拆分策略。当用户提供架构文档，需要梳理"微服务如何划分"时触发。TRIGGER 当用户说"梳理服务拆分"、"分析下微服务划分"、"服务边界是什么"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # 服务拆分分析 Skill

@@ -1,6 +1,8 @@
 ---
 name: system-design-availability
-description: 分析系统的可用性设计。当用户提供架构文档, 需要梳理"高可用和容灾策略"时触发。TRIGGER 当用户说"分析下可用性设计"、"梳理下高可用方案"、"容灾策略是什么"时使用。
+description: 分析系统的可用性设计。当用户提供架构文档, 需要梳理"高可用和容灾策略"时触发。 TRIGGER 当用户说"分析下可用性设计"、"梳理下高可用方案"、"容灾策略是什么"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # 可用性设计分析 Skill

@@ -4,11 +4,24 @@
 
 ## 概述
 
-本目录包含 14 个系统设计审查 skill, 用于分析和梳理架构文档,输出标准化的审查文档。
+本目录包含 15 个系统设计审查 skill, 用于分析和梳理架构文档,输出标准化的审查文档。
 
 ## 使用方式
 
-每个 skill 接收 HTML 文件夹/压缩包/文档作为输入,输出标准化的 Markdown 宣查文档。
+每个 skill 接收 HTML 文件夹/压缩包/文档作为输入,输出标准化的 Markdown 审查文档。
+
+## ⚠️ 重要: 技术栈扫描
+
+**在运行其他 skill 之前, 必须先运行 `tech-stack` skill**
+
+`tech-stack` skill 扫描代码库识别技术栈, 是其他 skill 的前置依赖。 依赖它的 skill:
+- service-decomposition
+- cache-design
+- api-design
+- security-design
+- data-flow
+- performance-design
+- availability-design
 
 ## Skill 列表
 

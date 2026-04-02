@@ -1,6 +1,8 @@
 ---
 name: system-design-cache
-description: 分析系统的缓存设计。当用户提供架构文档， 需要梳理"缓存策略和方案"时触发。TRIGGER 当用户说"分析下缓存设计"、"梳理下缓存策略"、"缓存怎么用"时使用。
+description: 分析系统的缓存设计。当用户提供架构文档, 需要梳理"缓存策略和方案"时触发。 TRIGGER 当用户说"分析下缓存设计"、"梳理下缓存策略"、"缓存怎么用"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # 缓存设计分析 Skill

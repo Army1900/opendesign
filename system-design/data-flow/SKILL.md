@@ -1,6 +1,8 @@
 ---
 name: system-design-data-flow
-description: 分析系统的数据流转过程。当用户提供架构文档，需要梳理"数据从哪来到哪"时触发。TRIGGER 当用户说"梳理下数据流程"、"分析下数据流向"、"数据是怎么流转的"时使用。
+description: 分析系统的数据流转过程。当用户提供架构文档, 需要梳理"数据从哪来到哪"时触发。 TRIGGER 当用户说"梳理下数据流程"、"分析下数据流向"、"数据是怎么流转的"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # 数据流程分析 Skill

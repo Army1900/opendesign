@@ -1,6 +1,8 @@
 ---
 name: system-design-api
-description: 分析系统的API设计。当用户提供架构文档, 鷆要梳理"接口定义和规范"时触发。TRIGGER 当用户说"分析下API设计"、"梳理下接口定义"、"API规范是什么"时使用。
+description: 分析系统的API设计。当用户提供架构文档, 需要梳理"接口定义和规范"时触发。 TRIGGER 当用户说"分析下API设计"、"梳理下接口定义"、"API规范是什么"时使用。
+dependencies:
+  - system-design-tech-stack
 ---
 
 # API设计分析 Skill
