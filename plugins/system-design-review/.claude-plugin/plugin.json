@@ -1,0 +1,11 @@
+{
+  "name": "system-design-review",
+  "version": "1.0.0",
+  "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计",
+  "author": {
+    "name": "OpenDesign Team"
+  },
+  "license": "MIT",
+  "keywords": ["system", "design", "architecture", "review", "ddd"],
+  "skills": ["./skills/system-design-review"]
+}

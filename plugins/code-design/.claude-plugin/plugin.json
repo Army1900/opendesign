@@ -1,0 +1,11 @@
+{
+  "name": "code-design",
+  "version": "1.0.0",
+  "description": "代码设计审查工具 - 支持代码执行效率分析、性能问题排查",
+  "author": {
+    "name": "OpenDesign Team"
+  },
+  "license": "MIT",
+  "keywords": ["code", "design", "performance", "efficiency", "review"],
+  "skills": ["./skills/code-execution-efficiency"]
+}

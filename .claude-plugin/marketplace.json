@@ -1,0 +1,46 @@
+{
+  "name": "opendesign",
+  "owner": {
+    "name": "OpenDesign Team",
+    "email": "opendesign@example.com"
+  },
+  "metadata": {
+    "description": "设计审查技能集合 - 包含产品设计、系统设计、代码效率分析工具",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "product-design-review",
+      "source": "./plugins/product-design-review",
+      "description": "产品设计审查工具 - 支持需求分析、场景设计、信息架构、交互设计、可用性检查",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpenDesign Team"
+      },
+      "category": "design",
+      "keywords": ["product", "design", "review", "ux", "ui"]
+    },
+    {
+      "name": "system-design-review",
+      "source": "./plugins/system-design-review",
+      "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpenDesign Team"
+      },
+      "category": "architecture",
+      "keywords": ["system", "design", "architecture", "review", "ddd"]
+    },
+    {
+      "name": "code-design",
+      "source": "./plugins/code-design",
+      "description": "代码设计分析工具 - 支持代码执行效率分析、性能优化",
+      "version": "1.0.0",
+      "author": {
+        "name": "OpenDesign Team"
+      },
+      "category": "performance",
+      "keywords": ["code", "performance", "efficiency", "optimization"]
+    }
+  ]
+}
