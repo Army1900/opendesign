@@ -90,9 +90,6 @@ opendesign/
 │   │   └── skills/
 │   │       └── product-design-review/
 │   │           ├── SKILL.md
-│   │           ├── scripts/    # 文档读取脚本
-│   │           │   ├── read-word.py
-│   │           │   └── read-pdf.py
 │   │           └── references/
 │   │
 │   ├── system-design-review/   # 系统设计审查插件
@@ -111,11 +108,16 @@ opendesign/
 │       │   └── plugin.json
 │       └── skills/
 │           └── code-execution-efficiency/
-│               └── SKILL.md
+│               ├── SKILL.md
+│               └── references/
+│                   ├── checklists.md           # 性能检查项清单
+│                   ├── tech-stack-guides.md    # 技术栈分析指南
+│                   └── optimization-patterns.md # 优化模式速查
 │
 └── docs/                       # 输出文档目录
     ├── product-design/[项目名]/产品设计审查报告.md
-    └── system-design/[项目名]/系统设计审查报告.md
+    ├── system-design/[项目名]/系统设计审查报告.md
+    └── performance/[入口名]/性能分析报告.md
 ```
 
 ## 插件详情
@@ -209,19 +211,30 @@ Phase 6: 执行层
 
 ### code-design
 
-代码执行效率分析：
+代码执行效率分析，**必须结合代码**，**方案必须贴合项目**：
 
-- 调用链路分析
-- SQL 性能分析
-- 接口性能分析
-- 日志分析
-- 优化方案输出
+**核心原则**：
+- 代码驱动：没有代码无法分析，先读取代码再给方案
+- 全链路视角：不只看单点，要看调用上下文（N+1、事务、并发）
+- 方案贴合：用项目已有组件解决，不天马行空
+
+**分析维度**：
+```
+1. 代码层：循环调用、并发锁、内存对象
+2. 数据层：SQL 执行计划、事务范围、连接池
+3. 缓存层：穿透/击穿/雪崩、大 Key、命中率
+4. 外部服务：超时重试、熔断降级、连接复用
+```
 
 **使用示例：**
 ```
 用户: "这个接口慢，帮我分析下"
-→ 执行完整的性能分析流程
+      "代码在 src/main/java/.../OrderController.java"
+
+→ 读取代码 → 追踪调用链 → 识别瓶颈 → 给出贴合项目的方案（带代码示例）
 ```
+
+**输出文档**：`docs/performance/[入口名]/性能分析报告.md`
 
 ## Skill 依赖关系
 
