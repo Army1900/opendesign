@@ -17,11 +17,13 @@
       "Bash(git commit -m 'Add work-breakdown skill:*)",
       "Bash(git commit -m 'Improve skills with examples and HTML processing:*)",
       "Bash(git commit -m 'Add compatibility-design skill:*)",
-      "Bash(git commit -m 'Refine compatibility-design skill:*)"
+      "Bash(git commit -m 'Refine compatibility-design skill:*)",
+      "Bash(git commit:*)",
+      "WebSearch"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "bb-browser"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
