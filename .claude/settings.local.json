@@ -19,5 +19,9 @@
       "Bash(git commit -m 'Add compatibility-design skill:*)",
       "Bash(git commit -m 'Refine compatibility-design skill:*)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "bb-browser"
+  ],
+  "enableAllProjectMcpServers": true
 }
