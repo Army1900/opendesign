@@ -36,12 +36,12 @@ docs/
 
 ### 文档读取
 
-支持多种格式的文档读取：
+支持多种格式的文档读取，脚本位于各 skill 的 `scripts/` 目录：
 
-| 文档类型 | 读取方式 |
+| 文档类型 | 读取脚本 |
 |----------|----------|
-| Word (.docx) | `mcp__web_reader__webReader` 或 `python-docx` |
-| PDF | `mcp__web_reader__webReader` 或 `pdftotext` |
+| Word (.docx) | `scripts/read-word.py` |
+| PDF | `scripts/read-pdf.py` |
 | Markdown | 直接使用 Read 工具 |
 | HTML | 直接使用 Read 工具 |
 | 设计稿 | 导出为 HTML 后使用 Read 工具 |
@@ -83,11 +83,6 @@ opendesign/
 ├── .claude-plugin/
 │   └── marketplace.json        # 市场定义文件
 │
-├── scripts/                    # 文档读取脚本
-│   ├── read-word.py            # 读取 Word 文档
-│   ├── read-pdf.py             # 读取 PDF 文档
-│   └── README.md               # 脚本使用说明
-│
 ├── plugins/
 │   ├── product-design-review/  # 产品设计审查插件
 │   │   ├── .claude-plugin/
@@ -95,6 +90,9 @@ opendesign/
 │   │   └── skills/
 │   │       └── product-design-review/
 │   │           ├── SKILL.md
+│   │           ├── scripts/    # 文档读取脚本
+│   │           │   ├── read-word.py
+│   │           │   └── read-pdf.py
 │   │           └── references/
 │   │
 │   ├── system-design-review/   # 系统设计审查插件
@@ -103,6 +101,9 @@ opendesign/
 │   │   └── skills/
 │   │       └── system-design-review/
 │   │           ├── SKILL.md
+│   │           ├── scripts/    # 文档读取脚本
+│   │           │   ├── read-word.py
+│   │           │   └── read-pdf.py
 │   │           └── references/
 │   │
 │   └── code-design/            # 代码设计分析插件
