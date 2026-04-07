@@ -6,8 +6,8 @@ echo "  for OpenCode"
 echo "========================================"
 echo
 
-# 设置目标目录 - OpenCode 用户级 skills 目录
-TARGET_DIR="$HOME/.local/share/opencode/skills"
+# 设置目标目录 - OpenCode 用户级 skill 目录
+TARGET_DIR="$HOME/.config/opencode/skill"
 
 # 检查目标目录是否存在，不存在则创建
 if [ ! -d "$TARGET_DIR" ]; then
@@ -90,6 +90,6 @@ esac
 echo
 echo "========================================"
 echo "  Installation Complete"
-echo "  OpenCode skills directory: $TARGET_DIR"
+echo "  OpenCode skill directory: $TARGET_DIR"
 echo "========================================"
 echo

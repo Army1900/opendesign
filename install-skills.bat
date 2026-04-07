@@ -11,8 +11,8 @@ echo   for OpenCode
 echo ========================================
 echo.
 
-:: 设置目标目录 - OpenCode 用户级 skills 目录
-set "TARGET_DIR=%USERPROFILE%\.local\share\opencode\skills"
+:: 设置目标目录 - OpenCode 用户级 skill 目录
+set "TARGET_DIR=%USERPROFILE%\.config\opencode\skill"
 
 :: 检查目标目录是否存在，不存在则创建
 if not exist "%TARGET_DIR%" (
@@ -117,7 +117,7 @@ goto :eof
 echo.
 echo ========================================
 echo   Installation Complete
-echo   OpenCode skills directory: %TARGET_DIR%
+echo   OpenCode skill directory: %TARGET_DIR%
 echo ========================================
 echo.
 pause
