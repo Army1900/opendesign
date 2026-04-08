@@ -218,7 +218,7 @@ pip install PyMuPDF python-docx
 **所有审查内容必须输出到同一个文档，禁止生成多个文件。**
 
 ```
-docs/product-design/[项目名]/产品设计审查报告.md
+docs/product-design/[人名-编号-项目名]/产品设计审查报告.md
 ```
 
 **禁止行为**：
@@ -235,8 +235,14 @@ docs/product-design/[项目名]/产品设计审查报告.md
 
 所有审查内容输出到**一个结构化的主文档**：
 
+**归档命名规范**： `docs/product-design/[人名-编号-项目名]/产品设计审查报告.md`
+
+**示例**:
+- 有编号时: `docs/product-design/张三-PRD001-用户中心/产品设计审查报告.md`
+- 无人名/编号时: `docs/product-design/用户中心/产品设计审查报告.md`
+
 ```
-docs/product-design/[项目名]/产品设计审查报告.md
+docs/product-design/[人名-编号-项目名]/产品设计审查报告.md
 ```
 
 ### 文档结构

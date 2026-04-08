@@ -20,7 +20,11 @@
       "Bash(git commit -m 'Refine compatibility-design skill:*)",
       "Bash(git commit:*)",
       "WebSearch",
-      "Bash(chmod +x:*)"
+      "Bash(chmod +x:*)",
+      "Bash(git reset:*)",
+      "Bash(cat plugins/*/\\\\.claude-plugin/plugin.json)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ]
   },
   "enableAllProjectMcpServers": true,
