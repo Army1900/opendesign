@@ -10,8 +10,8 @@
   },
   "plugins": [
     {
-      "name": "product-design-review",
-      "source": "./plugins/product-design-review",
+      "name": "product-design",
+      "source": "./plugins/product-design",
       "description": "产品设计审查工具 - 支持需求分析、场景设计、信息架构、交互设计、可用性检查",
       "version": "1.0.0",
       "author": {
@@ -21,8 +21,8 @@
       "keywords": ["product", "design", "review", "ux", "ui"]
     },
     {
-      "name": "system-design-review",
-      "source": "./plugins/system-design-review",
+      "name": "system-design",
+      "source": "./plugins/system-design",
       "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计",
       "version": "1.0.0",
       "author": {
