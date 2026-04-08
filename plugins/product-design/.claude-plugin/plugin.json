@@ -1,6 +1,6 @@
 {
-  "name": "product-design-review",
-  "version": "1.0.0",
+  "name": "product-design",
+  "version": "1.0.1",
   "description": "产品设计审查工具 - 支持需求分析、场景设计、信息架构、交互设计、可用性检查",
   "author": {
     "name": "OpenDesign Team"
