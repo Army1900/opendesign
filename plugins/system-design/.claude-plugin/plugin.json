@@ -1,11 +1,14 @@
 {
   "name": "system-design",
   "version": "1.0.1",
-  "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计",
+  "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计、架构可靠性检查",
   "author": {
     "name": "OpenDesign Team"
   },
   "license": "MIT",
-  "keywords": ["system", "design", "architecture", "review", "ddd"],
-  "skills": ["./skills/system-design-review"]
+  "keywords": ["system", "design", "architecture", "review", "ddd", "reliability"],
+  "skills": [
+    "./skills/system-design-review",
+    "./skills/system-design-reliability"
+  ]
 }
