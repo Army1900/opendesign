@@ -93,11 +93,13 @@ AI: 收到，我将按顺序逐个分析以下项目：
 
 ```
 1. 需求分析 → 理解项目背景
-2. 业务逻辑 → 梳理业务规则和流程 ⭐ 新增
+2. 业务逻辑 → 梳理业务规则和流程
 3. 场景设计 → 分析使用场景
 4. 信息架构 → 梳理内容结构
 5. 交互设计 → 宣查交互体验
 6. 可用性   → 检查提示反馈
+7. 数据埋点 → 分析数据采集设计 ⭐ 新增
+8. 安全设计 → 审查安全机制 ⭐ 新增
 ```
 
 ## 使用方式
@@ -130,6 +132,8 @@ AI: 收到，我将按顺序逐个分析以下项目：
 | "微交互"、"交互细节" | 微交互 |
 | "状态设计"、"状态完整吗" | 状态设计 |
 | "提示反馈"、"提示设计" | 提示反馈 |
+| "数据埋点"、"埋点分析"、"数据分析" | 数据埋点 |
+| "安全设计"、"安全审查"、"隐私保护" | 安全设计 |
 
 ## 输入处理
 
@@ -169,6 +173,37 @@ AI: 收到，我将按顺序逐个分析以下项目：
 | 功能模块 | 页面区块划分 | DOM 结构 |
 | 交互元素 | 按钮、链接、表单 | 元素识别 |
 | 文案内容 | 文本节点 | 文本提取 |
+
+### 文档读取工具
+
+使用以下脚本读取不同格式的文档：
+
+| 文档类型 | 读取脚本 |
+|----------|----------|
+| PDF | `scripts/read-pdf.py` |
+| Word (.docx) | `scripts/read-word.py` |
+| Markdown | 直接使用 Read 工具 |
+| HTML | 直接使用 Read 工具 |
+
+**使用示例：**
+```bash
+# 读取 PDF 文档
+python scripts/read-pdf.py design.pdf
+
+# 指定页码范围
+python scripts/read-pdf.py design.pdf --pages 1-10
+
+# 输出到文件
+python scripts/read-pdf.py design.pdf -o output.md
+
+# 读取 Word 文档
+python scripts/read-word.py prd.docx
+```
+
+**依赖安装：**
+```bash
+pip install PyMuPDF python-docx
+```
 
 ## 输出规范
 
@@ -392,6 +427,8 @@ docs/product-design/[项目名]/产品设计审查报告.md
 | 微交互 | [interaction.md](references/interaction.md#微交互) | 分析交互细节 |
 | 状态设计 | [interaction.md](references/interaction.md#状态设计) | 检查状态覆盖 |
 | 提示反馈 | [usability.md](references/usability.md) | 检查提示机制 |
+| 数据埋点 | [analytics.md](references/analytics.md) | 分析数据采集设计 |
+| 安全设计 | [security.md](references/security.md) | 审查安全机制 |
 
 ### 第五步：输出文档
 
@@ -446,11 +483,25 @@ docs/product-design/[项目名]/产品设计审查报告.md
 1. 读取 [usability.md](references/usability.md)
 2. 执行提示反馈分析
 3. 写入报告「13. 提示反馈」
+4. 询问用户是否继续
 
-### Phase 7: 附录生成
+### Phase 7: 数据层
+1. 读取 [analytics.md](references/analytics.md)
+2. 执行数据埋点分析
+3. 写入报告「14. 数据埋点」
+4. 询问用户是否继续
+
+### Phase 8: 安全设计
+1. 读取 [security.md](references/security.md)
+2. 执行安全设计分析
+3. 写入报告「15. 安全设计」
+4. 询问用户是否继续
+
+### Phase 9: 附录生成
 1. 汇总所有待补充项 → 「附录 A」
 2. 输出设计与实现一致性检查 → 「附录 B」
-3. 完成报告
+3. 输出风险汇总 → 「附录 C」
+4. 完成报告
 
 ## 快捷触发词
 
@@ -462,3 +513,5 @@ docs/product-design/[项目名]/产品设计审查报告.md
 | "场景分析" | 执行 Phase 3 所有模块 |
 | "架构分析" | 执行 Phase 4 所有模块 |
 | "交互分析" | 执行 Phase 5 所有模块 |
+| "数据埋点" / "埋点分析" | 执行 Phase 7 数据埋点 |
+| "安全审查" / "安全分析" | 执行 Phase 8 安全设计 |
