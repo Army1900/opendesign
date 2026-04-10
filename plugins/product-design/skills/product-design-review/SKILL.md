@@ -102,10 +102,11 @@ AI: 收到，我将按顺序逐个分析以下项目：
 2. 业务逻辑 → 梳理业务规则和流程
 3. 场景设计 → 分析使用场景
 4. 信息架构 → 梳理内容结构
-5. 交互设计 → 宣查交互体验
-6. 可用性   → 检查提示反馈
-7. 数据埋点 → 分析数据采集设计 ⭐ 新增
-8. 安全设计 → 审查安全机制 ⭐ 新增
+5. 页面设计 → 扫描页面元素布局 ⭐ 新增
+6. 交互设计 → 宣查交互体验
+7. 可用性   → 检查提示反馈
+8. 数据埋点 → 分析数据采集设计
+9. 安全设计 → 审查安全机制
 ```
 
 ## 使用方式
@@ -133,6 +134,7 @@ AI: 收到，我将按顺序逐个分析以下项目：
 | "站点地图"、"内容结构" | 站点地图 |
 | "导航结构"、"导航清晰吗" | 导航结构 |
 | "信息层级"、"视觉层级" | 内容层级 |
+| "页面设计"、"页面元素"、"扫描页面" | 页面设计 |
 | "线框图"、"布局分析" | 线框图分析 |
 | "用户流程"、"操作路径" | 用户流程 |
 | "微交互"、"交互细节" | 微交互 |
@@ -434,6 +436,7 @@ docs/product-design/[人名-编号-项目名]/产品设计审查报告.md
 | 站点地图 | [information-architecture.md](references/information-architecture.md) | 梳理内容结构 |
 | 导航结构 | [information-architecture.md](references/information-architecture.md#导航结构) | 分析导航设计 |
 | 内容层级 | [information-architecture.md](references/information-architecture.md#内容层级) | 分析信息优先级 |
+| 页面设计 | [page-design.md](references/page-design.md) | 扫描页面元素布局 |
 | 线框图 | [interaction.md](references/interaction.md) | 分析页面布局 |
 | 用户流程 | [interaction.md](references/interaction.md#用户流程) | 梳理操作路径 |
 | 微交互 | [interaction.md](references/interaction.md#微交互) | 分析交互细节 |
@@ -482,34 +485,40 @@ docs/product-design/[人名-编号-项目名]/产品设计审查报告.md
    - 内容层级分析 → 「8. 内容层级」
 3. 询问用户是否继续
 
-### Phase 5: 交互设计
+### Phase 5: 页面设计
+1. 读取 [page-design.md](references/page-design.md)
+2. 执行页面设计分析
+3. 写入报告「9. 页面设计」
+4. 询问用户是否继续
+
+### Phase 6: 交互设计
 1. 读取 [interaction.md](references/interaction.md)
 2. 依次执行并写入报告：
-   - 线框图分析 → 「9. 线框图分析」
-   - 用户流程分析 → 「10. 用户流程」
-   - 微交互分析 → 「11. 微交互」
-   - 状态设计分析 → 「12. 状态设计」
+   - 线框图分析 → 「10. 线框图分析」
+   - 用户流程分析 → 「11. 用户流程」
+   - 微交互分析 → 「12. 微交互」
+   - 状态设计分析 → 「13. 状态设计」
 3. 询问用户是否继续
 
-### Phase 6: 可用性
+### Phase 7: 可用性
 1. 读取 [usability.md](references/usability.md)
 2. 执行提示反馈分析
-3. 写入报告「13. 提示反馈」
+3. 写入报告「14. 提示反馈」
 4. 询问用户是否继续
 
-### Phase 7: 数据层
+### Phase 8: 数据层
 1. 读取 [analytics.md](references/analytics.md)
 2. 执行数据埋点分析
-3. 写入报告「14. 数据埋点」
+3. 写入报告「15. 数据埋点」
 4. 询问用户是否继续
 
-### Phase 8: 安全设计
+### Phase 9: 安全设计
 1. 读取 [security.md](references/security.md)
 2. 执行安全设计分析
-3. 写入报告「15. 安全设计」
+3. 写入报告「16. 安全设计」
 4. 询问用户是否继续
 
-### Phase 9: 附录生成
+### Phase 10: 附录生成
 1. 汇总所有待补充项 → 「附录 A」
 2. 输出设计与实现一致性检查 → 「附录 B」
 3. 输出风险汇总 → 「附录 C」
@@ -524,6 +533,7 @@ docs/product-design/[人名-编号-项目名]/产品设计审查报告.md
 | "业务分析" / "业务规则" | 执行 Phase 2 业务逻辑 |
 | "场景分析" | 执行 Phase 3 所有模块 |
 | "架构分析" | 执行 Phase 4 所有模块 |
-| "交互分析" | 执行 Phase 5 所有模块 |
-| "数据埋点" / "埋点分析" | 执行 Phase 7 数据埋点 |
-| "安全审查" / "安全分析" | 执行 Phase 8 安全设计 |
+| "交互分析" | 执行 Phase 6 所有模块 |
+| "页面设计" / "扫描页面" | 执行 Phase 5 页面设计 |
+| "数据埋点" / "埋点分析" | 执行 Phase 8 数据埋点 |
+| "安全审查" / "安全分析" | 执行 Phase 9 安全设计 |
