@@ -11,433 +11,66 @@ description: |
 
 全链路分析代码性能问题，**必须结合代码**，**方案必须贴合项目**。
 
----
-
 ## 核心原则
 
-### 1. 代码驱动分析
+### 代码驱动分析
 
-```
-❌ 错误：空谈理论
-"这个 SQL 可能有问题，建议加索引"
-→ 没看代码，不知道调用上下文
+先读代码再分析，从入口追踪调用链（入口 → Service → DAO → SQL），结合上下文（循环？事务？并发？）给出针对性方案，禁止不看代码空谈理论。
 
-✅ 正确：基于代码分析
-1. 读取代码，找到调用位置
-2. 追踪调用链（入口 → Service → DAO → SQL）
-3. 结合上下文分析（循环？事务？并发？）
-4. 针对性给出方案
-```
+### 方案贴合项目
 
-### 2. 方案贴合项目
+先看项目有什么技术栈，用现有能力解决问题。项目用 Spring Boot + Redis + MySQL 就用 Redis 队列 + 线程池，不要建议引入 Kafka。
 
-```
-❌ 天马行空：
-"建议引入 Kafka 做异步解耦"
-→ 项目没有 MQ，引入成本巨大
+### 全链路视角
 
-✅ 贴合实际：
-1. 先看项目有什么：Spring Boot + Redis + MySQL
-2. 用现有能力：Redis 队列 + 线程池
-3. 或者：先优化为并行调用，不引入新组件
-```
-
-### 3. 全链路视角
-
-性能问题是系统性的，不能单点分析：
-
-```
-分析 SQL：
-  - 不只看 SQL 本身
-  - 还要看调用上下文（循环？N+1？）
-  - 还要看事务范围（锁持有时间？）
-  - 还要看并发场景（热点？竞争？）
-  - 还要看缓存（缓存命中率？）
-```
-
----
+分析 SQL 不只看 SQL 本身，还要看调用上下文（循环？N+1？）、事务范围（锁持有时间？）、并发场景（热点？竞争？）、缓存（命中率？）。
 
 ## 输入优先级
 
 ```
-优先级 1: 入口代码路径（必须）
-         - 没有代码无法分析
-         - 示例: "分析 OrderService.createOrder 方法"
-         
-优先级 2: 性能问题描述
-         - 响应时间、QPS、错误率
-         - 示例: "响应 2s，QPS 100"
-         
-优先级 3: 相关配置路径
-         - 连接池、缓存、超时配置
-         - 示例: "配置在 application.yml"
-         
-优先级 4: 日志/监控
-         - 问题时间段日志
-         - 监控截图/数据
+1. 入口代码路径（必须）—— 没有代码无法分析
+2. 性能问题描述 —— 响应时间、QPS、错误率
+3. 相关配置路径 —— 连接池、缓存、超时配置
+4. 日志/监控 —— 问题时间段日志、监控数据
 ```
-
----
-
-## 输出规范
-
-### 输出路径
-
-```
-docs/performance/[分析对象]/性能分析报告.md
-```
-
-### 文档结构
-
-```markdown
-# [入口方法/接口] 性能分析报告
-
-> 分析时间：YYYY-MM-DD HH:mm
-> 技术栈：[Spring Boot 3 + MyBatis + MySQL 8 + Redis]
-> 分析对象：[类名.方法名 或 API 路径]
-
----
-
-## 1. 调用链路
-
-```
-[入口] OrderController.createOrder()
-    │
-    ├── [Service] OrderService.createOrder()  ◄── 总耗时: 1500ms
-    │       │
-    │       ├── [校验] validateOrder()        ◄── 50ms
-    │       │
-    │       ├── [DB] INSERT orders            ◄── 100ms
-    │       │
-    │       ├── [循环] for items              ◄── 800ms ⚠️
-    │       │       └── [DB] INSERT item      ◄── 80ms * 10
-    │       │
-    │       └── [RPC] PaymentService.pay()    ◄── 500ms
-    │
-    └── [返回] Response
-```
-
-## 2. 问题清单
-
-| # | 问题 | 位置 | 影响 | 引入时间 | 风险 |
-|---|------|------|------|----------|------|
-| 1 | 循环内数据库调用 | OrderService:45 | N+1 问题，800ms | 2024-01-15 (a1b2c3d) | 🔴 高 |
-| 2 | 同步 RPC 调用 | OrderService:58 | 累加延迟 500ms | 2023-11-20 (e4f5g6h) | 🟡 中 |
-
-## 3. 详细分析
-
-### 问题 1: 循环内数据库调用
-
-**代码位置**: `OrderService.java:45`
-
-**问题追溯**:
-- 引入提交: `a1b2c3d` (2024-01-15)
-- 提交信息: "feat: 支持订单批量创建"
-- 作者: zhangsan
-- 说明: 该功能最初为单条订单设计，后续扩展批量时未重构为批量查询
-
-**代码片段**:
-```java
-for (OrderItem item : items) {
-    orderItemDao.insert(item);  // 循环内单条插入
-}
-```
-
-**分析**:
-- 10 个 item，每个 80ms，总计 800ms
-- 循环内数据库调用，N+1 模式
-- 每次都是独立的数据库交互
-
-**检查项匹配**:
-- [x] 循环内数据库调用 → 🔴 高风险
-
-### 问题 2: 同步 RPC 调用
-
-...
-
-## 4. 优化方案
-
-### 方案 1: 批量插入（推荐）
-
-**改动**:
-```java
-// 改动前
-for (OrderItem item : items) {
-    orderItemDao.insert(item);
-}
-
-// 改动后 - MyBatis 批量插入
-orderItemDao.batchInsert(items);
-```
-
-**Mapper.xml**:
-```xml
-<insert id="batchInsert">
-    INSERT INTO order_item (order_id, product_id, quantity)
-    VALUES
-    <foreach collection="list" item="item" separator=",">
-        (#{item.orderId}, #{item.productId}, #{item.quantity})
-    </foreach>
-</insert>
-```
-
-**预期收益**: 800ms → 50ms，减少 93%
-
-**成本**: 低，改动 2 个文件
-
-**风险**: 无
-
-### 方案 2: 异步支付（备选）
-
-**改动**:
-```java
-// 改动前
-PaymentResult result = paymentService.pay(request);
-
-// 改动后 - 异步调用
-CompletableFuture.runAsync(() -> {
-    paymentService.pay(request);
-}, asyncExecutor);
-```
-
-**预期收益**: 减少 500ms 同步等待
-
-**成本**: 中，需要处理异步回调
-
-**风险**: 支付结果需要异步通知
-
-## 5. 验证方法
-
-1. 压测对比: `ab -n 1000 -c 50`
-2. 监控指标: P99 响应时间、QPS
-3. 日志验证: 耗时日志对比
-
----
-
-## 附录
-
-### A. 检查项结果
-
-| 检查项 | 位置 | 状态 | 风险 |
-|--------|------|------|------|
-| 循环内数据库调用 | OrderService:45 | ❌ | 🔴 |
-| 同步调用可异步 | OrderService:58 | ⚠️ | 🟡 |
-
-**风险统计**: 🔴 高风险 1 项 | 🟡 中风险 1 项
-
-### B. 优化优先级
-
-| 优先级 | 方案 | 预期收益 | 成本 |
-|--------|------|----------|------|
-| P0 | 批量插入 | 750ms | 低 |
-| P1 | 异步支付 | 500ms | 中 |
-```
-
----
 
 ## 执行流程
 
-```
-┌─────────────────┐
-│  接收输入       │ ◄── 入口代码路径 + 问题描述
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  确认技术栈     │ ◄── 读取项目配置文件
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  读取代码       │ ◄── 从入口开始，逐层追踪
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  绘制调用链     │ ◄── 标注每层耗时
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  检查项匹配     │ ◄── 对照 checklists.md
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  追溯问题引入   │ ◄── git blame/log 定位问题代码引入时间
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  输出方案       │ ◄── 贴合技术栈，带代码示例
-└─────────────────┘
-```
+1. **确认技术栈**：读取项目配置文件。自定义配置模板见 [technology-stack-template.md](references/technology-stack-template.md)
+   - 优先读取：CLAUDE.md 技术栈章节 → `.claude/performance-tech-stack.md` → application.yml / pom.xml → 询问用户
+2. **读取代码**：从入口开始，逐层追踪调用链
+3. **绘制调用链**：标注每层耗时，识别瓶颈点
+4. **检查项匹配**：对照 [checklists.md](references/checklists.md) 逐项检查
+5. **追溯问题引入**：对问题代码执行 git blame 定位引入时间，方法见 [git-blame-guide.md](references/git-blame-guide.md)
+6. **输出方案**：贴合技术栈，带代码示例，量化收益，评估成本
 
----
+## 输出规范
 
-## 问题引入时间追溯
+路径：`docs/performance/[分析对象]/性能分析报告.md`
 
-当项目为 Git 仓库时，对识别出的每个问题代码进行追溯，定位问题引入的时间点和提交信息。
+每个问题包含：调用链路 → 问题清单（含引入时间）→ 详细分析 → 优化方案（推荐+备选）→ 验证方法 → 检查项结果 → 优化优先级。
 
-### 追溯方法
+完整报告模板和示例见 [output-template.md](references/output-template.md)
 
-```bash
-# 1. 查看某行代码的最后修改信息
-git blame -L <start>,<end> <file_path>
+## 使用示例
 
-# 示例：查看 OrderService.java 第 45-50 行
-git blame -L 45,50 src/main/java/.../OrderService.java
-
-# 2. 查看某文件的完整 blame（结合行号定位）
-git blame <file_path>
-
-# 3. 查看某次提交的详细信息
-git show <commit_hash>
-
-# 4. 查看某文件的历史修改
-git log --oneline -10 -- <file_path>
-
-# 5. 查看某行代码的修改历史（需要 git log -S 或 -G）
-git log -p -S "问题代码片段" -- <file_path>
-```
-
-### 输出格式
-
-在问题清单中增加「引入时间」列：
-
-```markdown
-## 2. 问题清单
-
-| # | 问题 | 位置 | 影响 | 引入时间 | 风险 |
-|---|------|------|------|----------|------|
-| 1 | 循环内数据库调用 | OrderService:45 | N+1 问题，800ms | 2024-01-15 (a1b2c3d) | 🔴 高 |
-| 2 | 同步 RPC 调用 | OrderService:58 | 累加延迟 500ms | 2023-11-20 (e4f5g6h) | 🟡 中 |
-```
-
-在详细分析中增加「问题追溯」章节：
-
-```markdown
-### 问题 1: 循环内数据库调用
-
-**代码位置**: `OrderService.java:45`
-
-**问题追溯**:
-- 引入提交: `a1b2c3d` (2024-01-15)
-- 提交信息: "feat: 支持订单批量创建"
-- 作者: zhangsan
-- 说明: 该功能最初为单条订单设计，后续扩展批量时未重构为批量查询
-
-**代码片段**:
-...
-```
-
-### 注意事项
-
-1. **只追溯问题代码**：仅对识别出的有问题的代码进行追溯，正常代码无需追溯
-2. **追溯深度**：追溯到最后一次修改该问题代码的提交即可，无需追溯全部历史
-3. **无法追溯的情况**：
-   - 代码刚新增还未提交
-   - 文件是从其他地方复制/重构而来
-   - 遇到这些情况标注「无法追溯」即可
-4. **追溯目的**：帮助理解问题背景（是遗留问题还是新引入的），不用于追责
-
----
+| 用户输入 | 分析路径 |
+|----------|----------|
+| "/api/order/create 响应2秒，代码在 OrderController.java" | 读取代码 → 追踪调用链 → 识别瓶颈 → 输出方案 |
+| "UserService.batchImport 处理10万条数据很慢" | 读取代码 → 分析批处理逻辑 → 检查内存和IO → 输出方案 |
+| "SELECT * FROM orders WHERE DATE(create_time)='2024-01-01' 慢" | 分析SQL → 找调用代码 → 看上下文 → 输出索引+代码改动 |
+| "InventoryService.deduct 高并发超卖" | 读取代码 → 分析锁机制 → 检查竞态条件 → 输出并发方案 |
 
 ## References
-
-分析过程中按需读取：
 
 | 参考 | 用途 |
 |------|------|
 | [checklists.md](references/checklists.md) | 检查项清单（代码层/数据层/缓存层/外部服务） |
 | [tech-stack-guides.md](references/tech-stack-guides.md) | 技术栈分析指南（MySQL/Redis/Feign 等） |
 | [optimization-patterns.md](references/optimization-patterns.md) | 优化模式速查（SQL/缓存/并发/异步） |
-
----
-
-## 使用示例
-
-### 示例 1: 分析接口
-
-```
-用户: /api/order/create 这个接口响应要 2 秒，帮我分析
-      代码在 src/main/java/com/example/controller/OrderController.java
-```
-
-→ 读取代码 → 追踪调用链 → 识别瓶颈 → 输出方案
-
-### 示例 2: 分析方法
-
-```
-用户: UserService.batchImport 这个方法在处理大量数据时很慢
-      代码路径: src/main/java/com/example/service/UserService.java
-      数据量: 10 万条
-```
-
-→ 读取代码 → 分析批处理逻辑 → 检查内存和 IO → 输出方案
-
-### 示例 3: 分析 SQL
-
-```
-用户: 这个 SQL 慢，帮我看看
-      SELECT * FROM orders WHERE DATE(create_time) = '2024-01-01'
-      表里有 100 万条数据
-```
-
-→ 分析 SQL → 找到调用代码 → 看上下文 → 输出方案（带索引 + 代码改动）
-
-### 示例 4: 高并发问题
-
-```
-用户: 库存扣减在高并发下有问题，会超卖
-      代码: InventoryService.deduct
-```
-
-→ 读取代码 → 分析锁机制 → 检查竞态条件 → 输出贴合项目的并发方案
-
----
-
-## 技术栈信息收集
-
-在分析前，先了解项目技术栈：
-
-### 配置文件优先级
-
-```
-1. CLAUDE.md 中的技术栈章节
-2. .claude/performance-tech-stack.md
-3. application.yml / pom.xml / build.gradle
-4. 询问用户
-```
-
-### 自定义配置模板
-
-用户可在 `.claude/performance-tech-stack.md` 中配置：
-
-```markdown
-# 性能分析技术栈
-
-## 基础框架
-- 语言: Java 17
-- 框架: Spring Boot 3.1
-
-## 数据层
-- 数据库: MySQL 8.0
-- ORM: MyBatis-Plus 3.5
-- 连接池: HikariCP (max: 50)
-
-## 缓存
-- Redis 7.0 + Redisson
-
-## 服务调用
-- RPC: Feign
-- 超时: 5s
-
-## 消息队列
-- RocketMQ 5.0
-```
-
----
+| [output-template.md](references/output-template.md) | 完整报告模板和示例 |
+| [git-blame-guide.md](references/git-blame-guide.md) | 问题引入时间追溯方法 |
+| [technology-stack-template.md](references/technology-stack-template.md) | 技术栈信息收集模板 |
 
 ## 注意事项
 
