@@ -1,6 +1,6 @@
 {
   "name": "system-design",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "系统设计审查工具 - 支持技术栈扫描、战略设计、服务设计、数据设计、通信设计、架构可靠性检查",
   "author": {
     "name": "OpenDesign Team"
