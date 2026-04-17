@@ -40,9 +40,14 @@ description: |
    - 优先读取：CLAUDE.md 技术栈章节 → `.claude/performance-tech-stack.md` → application.yml / pom.xml → 询问用户
 2. **读取代码**：从入口开始，逐层追踪调用链
 3. **绘制调用链**：标注每层耗时，识别瓶颈点
-4. **检查项匹配**：对照 [checklists.md](references/checklists.md) 逐项检查
-5. **追溯问题引入**：对问题代码执行 git blame 定位引入时间，方法见 [git-blame-guide.md](references/git-blame-guide.md)
-6. **输出方案**：贴合技术栈，带代码示例，量化收益，评估成本
+4. **收集 SQL 上下文**（当涉及 SQL 分析时触发）：
+   - 如果用户直接提供了 SQL，或调用链中发现了 SQL 语句，**必须要求用户提供以下信息**才能继续分析：
+     - **表结构（DDL）**：`SHOW CREATE TABLE` 输出或建表语句，用于判断索引、字段类型、分区等信息
+     - **数据量**：各表的行数（`SELECT COUNT(*)` 或近似值），以及增长趋势（如日增多少）
+   - 将收集到的表结构和数据量记录到分析报告中，作为后续索引优化、执行计划分析的依据
+5. **检查项匹配**：对照 [checklists.md](references/checklists.md) 逐项检查
+6. **追溯问题引入**：对问题代码执行 git blame 定位引入时间，方法见 [git-blame-guide.md](references/git-blame-guide.md)
+7. **输出方案**：贴合技术栈，带代码示例，量化收益，评估成本
 
 ## 输出规范
 
@@ -80,3 +85,4 @@ description: |
 4. **给出代码**：优化方案要带针对当前项目的代码示例
 5. **量化收益**：每个方案说明预期收益
 6. **评估成本**：说明改动量和风险
+7. **SQL 分析必须有表结构和数据量**：涉及 SQL 性能分析时，必须先拿到表 DDL 和数据量，禁止在没有表结构信息的情况下给出索引优化建议
